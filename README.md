@@ -1,36 +1,25 @@
-# Password-strength-hacking-<!DOCTYPE html>
-<html>
-<head>
-    <title>Password Strength Checker</title>
-    <style>
-        #strength {
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-    <h1>Password Strength Checker</h1>
-    <input type="password" id="password" placeholder="Enter your password" />
-    <p>Password Strength: <span id="strength">Enter a password</span></p>
+// script.js
 
-    <script>
-        const passwordInput = document.getElementById("password");
-        const strengthText = document.getElementById("strength");
+let password = document.getElementById("password");
+let power = document.getElementById("power-point");
+password.oninput = function () {
+    let point = 0;
+    let value = password.value;
+    let widthPower = 
+        ["1%", "25%", "50%", "75%", "100%"];
+    let colorPower = 
+        ["#D73F40", "#DC6551", "#F2B84F", "#BDE952", "#3ba62f"];
 
-        passwordInput.addEventListener("input", () => {
-            const password = passwordInput.value;
-            const strength = checkPasswordStrength(password);
-            strengthText.textContent = strength;
-            strengthText.style.color = getStrengthColor(strength);
+    if (value.length >= 6) {
+        let arrayTest = 
+            [/[0-9]/, /[a-z]/, /[A-Z]/, /[^0-9a-zA-Z]/];
+        arrayTest.forEach((item) => {
+            if (item.test(value)) {
+                point += 1;
+            }
         });
+    }
+    power.style.width = widthPower[point];
+    power.style.backgroundColor = colorPower[point];
+};
 
-        function checkPasswordStrength(password) {
-            let strength = 0;
-
-            if (password.length >= 8) strength++; // Minimum length
-            if (/[A-Z]/.test(password)) strength++; // Uppercase letter
-            if (/[a-z]/.test(password)) strength++; // Lowercase letter
-            if (/[0-9]/.test(password)) strength++; // Digit
-            if (/[@$!%*?&#]/.test(password)) strength++; // Special character
-
-            switch (strength
